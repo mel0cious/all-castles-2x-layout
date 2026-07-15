@@ -1,0 +1,278 @@
+import { useState, useRef, useEffect } from 'react'
+import './App.css'
+import Layout1C from './Layout1C.png'
+import Layout2C from './Layout2C.png'
+
+function App() {
+  const [player1, setPlayer1] = useState("Bramz")
+  const [player2, setPlayer2] = useState("Truman")
+  const [player1Seed, setPlayer1Seed] = useState("1")
+  const [player2Seed, setPlayer2Seed] = useState("32")  
+  const [player1Pronouns, setPlayer1Pronouns] = useState("he/him")
+  const [player2Pronouns, setPlayer2Pronouns] = useState("he/him")
+  const [player1Country, setPlayer1Country] = useState("us")
+  const [player2Country, setPlayer2Country] = useState("jp")
+  const [commentator1, setCommentator1] = useState("Commentary: Mel0cious")
+  const [commentator2, setCommentator2] = useState("")
+  const [commentator1Pronouns, setCommentator1Pronouns] = useState("she/they")
+  const [commentator2Pronouns, setCommentator2Pronouns] = useState("")
+  const [commentator1Country, setCommentator1Country] = useState("jp")
+  const [commentator2Country, setCommentator2Country] = useState("")
+  
+  const player1InnerRef = useRef<HTMLDivElement>(null)
+  const player1OuterRef = useRef<HTMLDivElement>(null)
+  const player2InnerRef = useRef<HTMLDivElement>(null)
+  const player2OuterRef = useRef<HTMLDivElement>(null)
+  const commentator1InnerRef = useRef<HTMLDivElement>(null)
+  const commentator1OuterRef = useRef<HTMLDivElement>(null)
+  const commentator2InnerRef = useRef<HTMLDivElement>(null)
+  const commentator2OuterRef = useRef<HTMLDivElement>(null)
+
+  // Adjust font size when text content changes
+  useEffect(() => {
+    if (!player1InnerRef.current || !player1OuterRef.current) return
+
+    const adjustFontSize = () => {
+      const inner = player1InnerRef.current
+      const outer = player1OuterRef.current
+      if (!inner || !outer) return
+
+      // Start at max size
+      inner.style.fontSize = '50px'
+
+      // Give browser time to render
+      requestAnimationFrame(() => {
+        let currentSize = 50
+        const FLAG_WIDTH = 90 // 64px flag + 10px margin + 10px padding-right + buffer
+
+        // Keep reducing until no overflow
+        while (currentSize > 12) {
+          const totalWidth = FLAG_WIDTH + inner.scrollWidth
+          const isOverflowing =
+            inner.scrollHeight > outer.clientHeight ||
+            totalWidth > outer.clientWidth
+
+          if (!isOverflowing) break
+
+          currentSize -= 1
+          inner.style.fontSize = currentSize + 'px'
+        }
+      })
+    }
+
+    adjustFontSize()
+    window.addEventListener('resize', adjustFontSize)
+
+    return () => window.removeEventListener('resize', adjustFontSize)
+  }, [player1, player1Pronouns, player1Seed])
+
+  // Adjust font size for player 2
+  useEffect(() => {
+    if (!player2InnerRef.current || !player2OuterRef.current) return
+
+    const adjustFontSize = () => {
+      const inner = player2InnerRef.current
+      const outer = player2OuterRef.current
+      if (!inner || !outer) return
+
+      // Start at max size
+      inner.style.fontSize = '50px'
+
+      // Give browser time to render
+      requestAnimationFrame(() => {
+        let currentSize = 50
+        const FLAG_WIDTH = 90 // 64px flag + 10px margin + 10px padding-right + buffer
+
+        // Keep reducing until no overflow
+        while (currentSize > 12) {
+          const totalWidth = FLAG_WIDTH + inner.scrollWidth
+          const isOverflowing =
+            inner.scrollHeight > outer.clientHeight ||
+            totalWidth > outer.clientWidth
+
+          if (!isOverflowing) break
+
+          currentSize -= 1
+          inner.style.fontSize = currentSize + 'px'
+        }
+      })
+    }
+
+    adjustFontSize()
+    window.addEventListener('resize', adjustFontSize)
+
+    return () => window.removeEventListener('resize', adjustFontSize)
+  }, [player2, player2Pronouns, player2Seed])
+
+  // Adjust font size for commentator 1
+  useEffect(() => {
+    if (!commentator1InnerRef.current || !commentator1OuterRef.current) return
+
+    const adjustFontSize = () => {
+      const inner = commentator1InnerRef.current
+      const outer = commentator1OuterRef.current
+      if (!inner || !outer) return
+
+      // Start at max size
+      inner.style.fontSize = '50px'
+
+      // Give browser time to render
+      requestAnimationFrame(() => {
+        let currentSize = 50
+        const FLAG_WIDTH = 90 // 64px flag + 10px margin + 10px padding + buffer
+
+        // Keep reducing until no overflow
+        while (currentSize > 12) {
+          const totalWidth = FLAG_WIDTH + inner.scrollWidth
+          const isOverflowing =
+            inner.scrollHeight > outer.clientHeight ||
+            totalWidth > outer.clientWidth
+
+          if (!isOverflowing) break
+
+          currentSize -= 1
+          inner.style.fontSize = currentSize + 'px'
+        }
+      })
+    }
+
+    adjustFontSize()
+    window.addEventListener('resize', adjustFontSize)
+
+    return () => window.removeEventListener('resize', adjustFontSize)
+  }, [commentator1, commentator1Pronouns])
+
+  // Adjust font size for commentator 2
+  useEffect(() => {
+    if (!commentator2InnerRef.current || !commentator2OuterRef.current) return
+
+    const adjustFontSize = () => {
+      const inner = commentator2InnerRef.current
+      const outer = commentator2OuterRef.current
+      if (!inner || !outer) return
+
+      // Start at max size
+      inner.style.fontSize = '50px'
+
+      // Give browser time to render
+      requestAnimationFrame(() => {
+        let currentSize = 50
+        const FLAG_WIDTH = 90 // 64px flag + 10px margin + 10px padding + buffer
+
+        // Keep reducing until no overflow
+        while (currentSize > 12) {
+          const totalWidth = FLAG_WIDTH + inner.scrollWidth
+          const isOverflowing =
+            inner.scrollHeight > outer.clientHeight ||
+            totalWidth > outer.clientWidth
+
+          if (!isOverflowing) break
+
+          currentSize -= 1
+          inner.style.fontSize = currentSize + 'px'
+        }
+      })
+    }
+
+    adjustFontSize()
+    window.addEventListener('resize', adjustFontSize)
+
+    return () => window.removeEventListener('resize', adjustFontSize)
+  }, [commentator2, commentator2Pronouns])
+
+  // Use for Pronouns
+  // If no pronouns, return just name
+  function combineNameAndPronouns(name:string, pronouns:string) {
+    if (pronouns == "") {
+      return name
+    }
+    else return `${name} (${pronouns})`
+  }
+
+  // Yell at me all you want for claude making this function
+  function countryCodeToUnicode(code: string): string {
+    const unicodeParts: string[] = [];
+    for (const char of code.toUpperCase()) {
+      const offset = char.charCodeAt(0) - 'A'.charCodeAt(0);
+      const codepoint = 0x1F1E6 + offset;
+      unicodeParts.push(codepoint.toString(16));
+    }
+
+      switch (code.toUpperCase()) {
+      case "GB-ENG":
+      case "ENG":
+        return "1f3f4-e0067-e0062-e0065-e006e-e0067-e007f";
+      case "GB-SCT":
+      case "SCT":
+        return "1f3f4-e0067-e0062-e0073-e0063-e0074-e007f";
+      case "GB-WLS":
+      case "WLS":
+        return "1f3f4-e0067-e0062-e0077-e006c-e0073-e007f";
+      }
+
+    return unicodeParts.join('-');
+  }
+
+  function getEmoji(countryCode: string): string {
+    const unicode = countryCodeToUnicode(countryCode);
+    if (countryCode == "") return "";
+    return `/assets/72x72/${unicode}.png`;
+  }
+
+  return (
+    <>
+      <div className="layout" style={{backgroundImage: `url(${commentator2 ? Layout2C : Layout1C})`}}> {/* Main Visual */}
+        <div className='outerplayercontainer right' id='player1' ref={player1OuterRef}> {/* Player 1 Name And Seed */}
+          <img src={getEmoji(player1Country)} className='country' id='country1'/>
+          <div className='innerplayercontainer' id='player1' ref={player1InnerRef}><div className='player'>{combineNameAndPronouns(player1, player1Pronouns)}</div><div className='seed'>{player1Seed}</div></div>
+
+        </div>
+        
+        <div className='outerplayercontainer left' id='player2' ref={player2OuterRef}> {/* Player 2 Name And Seed */}
+          <div className='innerplayercontainer' id='player2' ref={player2InnerRef}><div className='seed'>{player2Seed}</div><div className='player'>{combineNameAndPronouns(player2, player2Pronouns)}</div></div>
+          <img src={getEmoji(player2Country)} id='country2'/>
+        </div>
+
+        <div className='commentary' id='commentator1' ref={commentator1OuterRef}>
+          <div className='commentaryinner' ref={commentator1InnerRef}>{combineNameAndPronouns(commentator1, commentator1Pronouns)}</div>
+          <img src={getEmoji(commentator1Country)} className='country'/>
+        </div>
+        <div className='commentary' id='commentator2' ref={commentator2OuterRef}>
+          <div className='commentaryinner' ref={commentator2InnerRef}>{combineNameAndPronouns(commentator2, commentator2Pronouns)}</div>
+          {commentator2Country ? <img src={getEmoji(commentator2Country)} className='country'/> : <></>}
+        </div>
+      </div>
+
+    <div className='controls'>
+      <div className='playerinfo'>
+        <div className='player1info'>
+          <input type='text' value={player1} onChange={(e) => setPlayer1(e.target.value)} />
+          <input type='text' value={player1Pronouns} onChange={(e) => setPlayer1Pronouns(e.target.value)} />
+          <input type='text' value={player1Country} onChange={(e) => setPlayer1Country(e.target.value)} />
+          <input type='text' value={player1Seed} onChange={(e) => setPlayer1Seed(e.target.value)} />
+        </div>
+        <div className='player2info'>
+          <input type='text' value={player2} onChange={(e) => setPlayer2(e.target.value)} />
+          <input type='text' value={player2Pronouns} onChange={(e) => setPlayer2Pronouns(e.target.value)} />
+          <input type='text' value={player2Country} onChange={(e) => setPlayer2Country(e.target.value)} />
+          <input type='text' value={player2Seed} onChange={(e) => setPlayer2Seed(e.target.value)} />
+        </div>
+      </div>
+      <div className='commentatorinfo'>
+        <div className='commentator1info'>
+          <input type='text' value={commentator1} onChange={e => setCommentator1(e.target.value)} />
+          <input type='text' value={commentator1Pronouns} onChange={e => setCommentator1Pronouns(e.target.value)} />
+          <input type='text' value={commentator1Country} onChange={e => setCommentator1Country(e.target.value)} />
+        </div>
+        <div className='commentator2Info'>
+          <input type='text' value={commentator2} onChange={e => setCommentator2(e.target.value)} />
+          <input type='text' value={commentator2Pronouns} onChange={e => setCommentator2Pronouns(e.target.value)} />
+          <input type='text' value={commentator2Country} onChange={e => setCommentator2Country(e.target.value)} />
+        </div>
+      </div>
+      </div>
+    </>
+  )
+}
+
+export default App

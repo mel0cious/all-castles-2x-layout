@@ -1,0 +1,107 @@
+@font-face {
+    font-family: DiscotecaRounded;
+    src: url('./Font/DiscotecaRounded.ttf');
+}
+
+.layout {
+  width: 1920px;
+  height: 1080px;
+  margin: 0%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.country {
+    top:6px;
+    width: 64px;
+    height: 64px;
+    margin-right: 10px;
+}
+
+#country1 {
+  margin-right: 10px;
+}
+
+.seed {
+    color: lightgray;
+}
+
+.outerplayercontainer {
+  font-family: DiscotecaRounded;
+  position: absolute;
+  width: 450px;
+  height: 76px;
+  top: 729px;
+  display: flex;
+  align-items: center;
+  color: white;
+  padding-right: 5;
+  overflow: hidden;
+}
+
+.commentary {
+  font-family: DiscotecaRounded;
+  position: absolute;
+  width: 740px;
+  height: 70px;
+  color: white;
+  font-size: 50px;
+  left: 595px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.controls {
+  position: absolute;
+  display: block;
+  top: 1100px;
+  font-size: xx-large;
+}
+
+#commentator1 {
+  top: 830px;
+}
+
+#commentator2 {
+  top: 935px;
+}
+
+.commentaryinner {
+  display: flex;
+  white-space: nowrap;
+  font-size: 50px;
+  padding: 0px 10px 0px 0px;
+}
+
+#player1 {
+    left: 15px;
+}
+
+#player2 {
+  right: -8px;
+}
+
+.innerplayercontainer {
+    display: flex;      
+    gap: 10px;          
+    align-items: baseline; 
+    padding: 0px 10px 0px 0px;
+    font-size: 50px;
+    top: 12px;
+    white-space: nowrap;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: DiscotecaRounded;
+}
+
+body {
+  overflow: hidden;
+}
