@@ -26,6 +26,8 @@ function App() {
   const commentator2InnerRef = useRef<HTMLDivElement>(null)
   const commentator2OuterRef = useRef<HTMLDivElement>(null)
 
+  const hasCountryCode = (countryCode: string) => countryCode.trim() !== ''
+
   const adjustNameFontSize = (nameRef: RefObject<HTMLDivElement | null>) => {
     const nameElement = nameRef.current
     if (!nameElement) return
@@ -76,11 +78,11 @@ function App() {
       // Give browser time to render
       requestAnimationFrame(() => {
         let currentSize = 50
-        const FLAG_WIDTH = 90 // 64px flag + 10px margin + 10px padding + buffer
+        const flagWidth = hasCountryCode(commentator1Country) ? 90 : 0 // 64px flag + spacing + buffer
 
         // Keep reducing until no overflow
         while (currentSize > 12) {
-          const totalWidth = FLAG_WIDTH + inner.scrollWidth
+          const totalWidth = flagWidth + inner.scrollWidth
           const isOverflowing =
             inner.scrollHeight > outer.clientHeight ||
             totalWidth > outer.clientWidth
@@ -97,7 +99,7 @@ function App() {
     window.addEventListener('resize', adjustFontSize)
 
     return () => window.removeEventListener('resize', adjustFontSize)
-  }, [commentator1, commentator1Pronouns])
+  }, [commentator1, commentator1Pronouns, commentator1Country])
 
   // Adjust font size for commentator 2
   useEffect(() => {
@@ -114,11 +116,11 @@ function App() {
       // Give browser time to render
       requestAnimationFrame(() => {
         let currentSize = 50
-        const FLAG_WIDTH = 90 // 64px flag + 10px margin + 10px padding + buffer
+        const flagWidth = hasCountryCode(commentator2Country) ? 90 : 0 // 64px flag + spacing + buffer
 
         // Keep reducing until no overflow
         while (currentSize > 12) {
-          const totalWidth = FLAG_WIDTH + inner.scrollWidth
+          const totalWidth = flagWidth + inner.scrollWidth
           const isOverflowing =
             inner.scrollHeight > outer.clientHeight ||
             totalWidth > outer.clientWidth
@@ -135,7 +137,7 @@ function App() {
     window.addEventListener('resize', adjustFontSize)
 
     return () => window.removeEventListener('resize', adjustFontSize)
-  }, [commentator2, commentator2Pronouns])
+  }, [commentator2, commentator2Pronouns, commentator2Country])
 
   // Use for Pronouns
   // If no pronouns, return just name
@@ -173,32 +175,69 @@ function App() {
   
   function getEmoji(countryCode: string): string {
     const unicode = countryCodeToUnicode(countryCode);
-    if (countryCode == "") return `${import.meta.env.BASE_URL}assets/72x72/blank.png`;
     return `${import.meta.env.BASE_URL}assets/72x72/${unicode}.png`;
   }
 
   return (
     <>
       <div className="layout" style={{backgroundImage: `url(${commentator2 ? Layout2C : Layout1C})`}}> {/* Main Visual */}
-        <div className='outerplayercontainer right' id='player1'> {/* Player 1 Name And Seed */}
-          <img src={getEmoji(player1Country)} className='country' id='country1'/>
+        <div
+          className='outerplayercontainer right'
+          id='player1'
+          style={{
+            gridTemplateColumns: hasCountryCode(player1Country)
+              ? '64px minmax(0, 1fr) 64px'
+              : 'minmax(0, 1fr) 64px'
+          }}
+        > {/* Player 1 Name And Seed */}
+          {hasCountryCode(player1Country) && <img src={getEmoji(player1Country)} className='country' id='country1'/>}
           <div className='playername' ref={player1NameRef}>{combineNameAndPronouns(player1, player1Pronouns)}</div>
           <div className='seed' id="seed1">{player1Seed}</div>
         </div>
         
-        <div className='outerplayercontainer left' id='player2'> {/* Player 2 Name And Seed */}
+        <div
+          className='outerplayercontainer left'
+          id='player2'
+          style={{
+            gridTemplateColumns: hasCountryCode(player2Country)
+              ? '64px minmax(0, 1fr) 64px'
+              : '64px minmax(0, 1fr)'
+          }}
+        > {/* Player 2 Name And Seed */}
           <div className='seed' id="seed2">{player2Seed}</div>
           <div className='playername' ref={player2NameRef}>{combineNameAndPronouns(player2, player2Pronouns)}</div>
-          <img src={getEmoji(player2Country)} className='country' id='country2'/>
+          {hasCountryCode(player2Country) && <img src={getEmoji(player2Country)} className='country' id='country2'/>}
         </div>
 
-        <div className='commentary' id='commentator1' ref={commentator1OuterRef}>
-          <div className='commentaryinner' ref={commentator1InnerRef}>{combineNameAndPronouns(commentator1, commentator1Pronouns)}</div>
-         <img src={getEmoji(commentator1Country)} className='country'/>
+        <div
+          className='commentary'
+          id='commentator1'
+          ref={commentator1OuterRef}
+          style={{ justifyContent: hasCountryCode(commentator1Country) ? 'space-between' : 'flex-start' }}
+        >
+          <div
+            className='commentaryinner'
+            ref={commentator1InnerRef}
+            style={{ paddingRight: hasCountryCode(commentator1Country) ? '10px' : '0px' }}
+          >
+            {combineNameAndPronouns(commentator1, commentator1Pronouns)}
+          </div>
+          {hasCountryCode(commentator1Country) && <img src={getEmoji(commentator1Country)} className='country'/>}
         </div>
-        <div className='commentary' id='commentator2' ref={commentator2OuterRef}>
-          <div className='commentaryinner' ref={commentator2InnerRef}>{combineNameAndPronouns(commentator2, commentator2Pronouns)}</div>
-          <img src={getEmoji(commentator2Country)} className='country'/>
+        <div
+          className='commentary'
+          id='commentator2'
+          ref={commentator2OuterRef}
+          style={{ justifyContent: hasCountryCode(commentator2Country) ? 'space-between' : 'flex-start' }}
+        >
+          <div
+            className='commentaryinner'
+            ref={commentator2InnerRef}
+            style={{ paddingRight: hasCountryCode(commentator2Country) ? '10px' : '0px' }}
+          >
+            {combineNameAndPronouns(commentator2, commentator2Pronouns)}
+          </div>
+          {hasCountryCode(commentator2Country) && <img src={getEmoji(commentator2Country)} className='country'/>}
         </div>
       </div>
 
