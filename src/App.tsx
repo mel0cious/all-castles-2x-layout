@@ -224,19 +224,19 @@ function App() {
     <>
       <div className="layout" style={{backgroundImage: `url(${commentator2 ? Layout2C : Layout1C})`}}> {/* Main Visual */}
         <div className='outerplayercontainer right' id='player1' ref={player1OuterRef}> {/* Player 1 Name And Seed */}
-          <img src={getEmoji(player1Country)} className='country' id='country1'/>
+          {player1Country ? <img src={getEmoji(player1Country)} className='country' id='country1'/> : <></>}
           <div className='innerplayercontainer' id='player1' ref={player1InnerRef}><div className='player'>{combineNameAndPronouns(player1, player1Pronouns)}</div><div className='seed align-right'>{player1Seed}</div></div>
 
         </div>
         
         <div className='outerplayercontainer left' id='player2' ref={player2OuterRef}> {/* Player 2 Name And Seed */}
           <div className='innerplayercontainer' id='player2' ref={player2InnerRef}><div className='seed align-left'>{player2Seed}</div><div className='player'>{combineNameAndPronouns(player2, player2Pronouns)}</div></div>
-          <img src={getEmoji(player2Country)} id='country2'/>
+          {player2Country ? <img src={getEmoji(player2Country)} id='country2'/> : <></>}
         </div>
 
         <div className='commentary' id='commentator1' ref={commentator1OuterRef}>
           <div className='commentaryinner' ref={commentator1InnerRef}>{combineNameAndPronouns(commentator1, commentator1Pronouns)}</div>
-          <img src={getEmoji(commentator1Country)} className='country'/>
+          {commentator1Country ? <img src={getEmoji(commentator1Country)} className='country'/> : <></>}
         </div>
         <div className='commentary' id='commentator2' ref={commentator2OuterRef}>
           <div className='commentaryinner' ref={commentator2InnerRef}>{combineNameAndPronouns(commentator2, commentator2Pronouns)}</div>
