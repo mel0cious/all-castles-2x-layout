@@ -216,7 +216,7 @@ function App() {
   function getEmoji(countryCode: string): string {
     const unicode = countryCodeToUnicode(countryCode);
     if (countryCode == "") return "";
-    return `/assets/72x72/${unicode}.png`;
+    return `${import.meta.env.BASE_URL}assets/72x72/${unicode}.png`;
   }
 
   return (
