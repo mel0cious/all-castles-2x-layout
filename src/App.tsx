@@ -191,28 +191,28 @@ function App() {
 
   // Yell at me all you want for claude making this function
   function countryCodeToUnicode(code: string): string {
+    const specialFlags: Record<string, string> = {
+      TRANS: "1f3f3-fe0f-200d-26a7-fe0f",
+      ENG: "1f3f4-e0067-e0062-e0065-e006e-e0067-e007f",
+      SCT: "1f3f4-e0067-e0062-e0073-e0063-e0074-e007f",
+      WLS: "1f3f4-e0067-e0062-e0077-e006c-e0073-e007f",
+    };
+
+    const key = code.toUpperCase();
+    if (specialFlags[key]) {
+      return specialFlags[key];
+    }
+
     const unicodeParts: string[] = [];
-    for (const char of code.toUpperCase()) {
-      const offset = char.charCodeAt(0) - 'A'.charCodeAt(0);
-      const codepoint = 0x1F1E6 + offset;
+    for (const char of key) {
+      const offset = char.charCodeAt(0) - "A".charCodeAt(0);
+      const codepoint = 0x1f1e6 + offset;
       unicodeParts.push(codepoint.toString(16));
     }
 
-      switch (code.toUpperCase()) {
-      case "GB-ENG":
-      case "ENG":
-        return "1f3f4-e0067-e0062-e0065-e006e-e0067-e007f";
-      case "GB-SCT":
-      case "SCT":
-        return "1f3f4-e0067-e0062-e0073-e0063-e0074-e007f";
-      case "GB-WLS":
-      case "WLS":
-        return "1f3f4-e0067-e0062-e0077-e006c-e0073-e007f";
-      }
-
-    return unicodeParts.join('-');
+    return unicodeParts.join("-");
   }
-
+  
   function getEmoji(countryCode: string): string {
     const unicode = countryCodeToUnicode(countryCode);
     if (countryCode == "") return "";
