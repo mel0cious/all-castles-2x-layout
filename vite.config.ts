@@ -8,5 +8,5 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
-  base:'/all-fours-2x-layout'
+  base: '/all-castles-2x-layout/'
 })
