@@ -192,6 +192,7 @@ function App() {
   // Yell at me all you want for claude making this function
   function countryCodeToUnicode(code: string): string {
     const specialFlags: Record<string, string> = {
+      PRIDE: "1f3f3-fe0f-200d-1f308",
       TRANS: "1f3f3-fe0f-200d-26a7-fe0f",
       ENG: "1f3f4-e0067-e0062-e0065-e006e-e0067-e007f",
       SCT: "1f3f4-e0067-e0062-e0073-e0063-e0074-e007f",
