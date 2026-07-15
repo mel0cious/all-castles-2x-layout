@@ -25,6 +25,8 @@
 
 .seed {
     color: lightgray;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .outerplayercontainer {
@@ -92,6 +94,8 @@
     font-size: 50px;
     top: 12px;
     white-space: nowrap;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 html, body {
@@ -104,4 +108,14 @@ html, body {
 
 body {
   overflow: hidden;
+}
+
+.align-right {
+  text-align: right;
+  justify-content: right;
+}
+
+.align-left {
+  text-align: left;
+  justify-content: left;
 }
