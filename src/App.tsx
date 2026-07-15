@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, type RefObject } from 'react'
 import './App.css'
 import Layout1C from './Layout1C.png'
 import Layout2C from './Layout2C.png'
@@ -19,90 +19,47 @@ function App() {
   const [commentator1Country, setCommentator1Country] = useState("jp")
   const [commentator2Country, setCommentator2Country] = useState("")
   
-  const player1InnerRef = useRef<HTMLDivElement>(null)
-  const player1OuterRef = useRef<HTMLDivElement>(null)
-  const player2InnerRef = useRef<HTMLDivElement>(null)
-  const player2OuterRef = useRef<HTMLDivElement>(null)
+  const player1NameRef = useRef<HTMLDivElement>(null)
+  const player2NameRef = useRef<HTMLDivElement>(null)
   const commentator1InnerRef = useRef<HTMLDivElement>(null)
   const commentator1OuterRef = useRef<HTMLDivElement>(null)
   const commentator2InnerRef = useRef<HTMLDivElement>(null)
   const commentator2OuterRef = useRef<HTMLDivElement>(null)
 
-  // Adjust font size when text content changes
+  const adjustNameFontSize = (nameRef: RefObject<HTMLDivElement | null>) => {
+    const nameElement = nameRef.current
+    if (!nameElement) return
+
+    nameElement.style.fontSize = '50px'
+
+    requestAnimationFrame(() => {
+      let currentSize = 50
+      const maxWidth = nameElement.clientWidth
+
+      while (currentSize > 12 && nameElement.scrollWidth > maxWidth) {
+        currentSize -= 1
+        nameElement.style.fontSize = `${currentSize}px`
+      }
+    })
+  }
+
   useEffect(() => {
-    if (!player1InnerRef.current || !player1OuterRef.current) return
+    adjustNameFontSize(player1NameRef)
 
-    const adjustFontSize = () => {
-      const inner = player1InnerRef.current
-      const outer = player1OuterRef.current
-      if (!inner || !outer) return
+    const handleResize = () => adjustNameFontSize(player1NameRef)
+    window.addEventListener('resize', handleResize)
 
-      // Start at max size
-      inner.style.fontSize = '50px'
+    return () => window.removeEventListener('resize', handleResize)
+  }, [player1, player1Pronouns])
 
-      // Give browser time to render
-      requestAnimationFrame(() => {
-        let currentSize = 50
-        const FLAG_WIDTH = 90 // 64px flag + 10px margin + 10px padding-right + buffer
-
-        // Keep reducing until no overflow
-        while (currentSize > 12) {
-          const totalWidth = FLAG_WIDTH + inner.scrollWidth
-          const isOverflowing =
-            inner.scrollHeight > outer.clientHeight ||
-            totalWidth > outer.clientWidth
-
-          if (!isOverflowing) break
-
-          currentSize -= 1
-          inner.style.fontSize = currentSize + 'px'
-        }
-      })
-    }
-
-    adjustFontSize()
-    window.addEventListener('resize', adjustFontSize)
-
-    return () => window.removeEventListener('resize', adjustFontSize)
-  }, [player1, player1Pronouns, player1Seed])
-
-  // Adjust font size for player 2
   useEffect(() => {
-    if (!player2InnerRef.current || !player2OuterRef.current) return
+    adjustNameFontSize(player2NameRef)
 
-    const adjustFontSize = () => {
-      const inner = player2InnerRef.current
-      const outer = player2OuterRef.current
-      if (!inner || !outer) return
+    const handleResize = () => adjustNameFontSize(player2NameRef)
+    window.addEventListener('resize', handleResize)
 
-      // Start at max size
-      inner.style.fontSize = '50px'
-
-      // Give browser time to render
-      requestAnimationFrame(() => {
-        let currentSize = 50
-        const FLAG_WIDTH = 90 // 64px flag + 10px margin + 10px padding-right + buffer
-
-        // Keep reducing until no overflow
-        while (currentSize > 12) {
-          const totalWidth = FLAG_WIDTH + inner.scrollWidth
-          const isOverflowing =
-            inner.scrollHeight > outer.clientHeight ||
-            totalWidth > outer.clientWidth
-
-          if (!isOverflowing) break
-
-          currentSize -= 1
-          inner.style.fontSize = currentSize + 'px'
-        }
-      })
-    }
-
-    adjustFontSize()
-    window.addEventListener('resize', adjustFontSize)
-
-    return () => window.removeEventListener('resize', adjustFontSize)
-  }, [player2, player2Pronouns, player2Seed])
+    return () => window.removeEventListener('resize', handleResize)
+  }, [player2, player2Pronouns])
 
   // Adjust font size for commentator 1
   useEffect(() => {
@@ -223,15 +180,16 @@ function App() {
   return (
     <>
       <div className="layout" style={{backgroundImage: `url(${commentator2 ? Layout2C : Layout1C})`}}> {/* Main Visual */}
-        <div className='outerplayercontainer right' id='player1' ref={player1OuterRef}> {/* Player 1 Name And Seed */}
+        <div className='outerplayercontainer right' id='player1'> {/* Player 1 Name And Seed */}
           {player1Country ? <img src={getEmoji(player1Country)} className='country' id='country1'/> : <></>}
-          <div className='innerplayercontainer' id='player1' ref={player1InnerRef}><div className='player'>{combineNameAndPronouns(player1, player1Pronouns)}</div><div className='seed align-right'>{player1Seed}</div></div>
-
+          <div className='playername' ref={player1NameRef}>{combineNameAndPronouns(player1, player1Pronouns)}</div>
+          <div className='seed' id="seed1">{player1Seed}</div>
         </div>
         
-        <div className='outerplayercontainer left' id='player2' ref={player2OuterRef}> {/* Player 2 Name And Seed */}
-          <div className='innerplayercontainer' id='player2' ref={player2InnerRef}><div className='seed align-left'>{player2Seed}</div><div className='player'>{combineNameAndPronouns(player2, player2Pronouns)}</div></div>
-          {player2Country ? <img src={getEmoji(player2Country)} id='country2'/> : <></>}
+        <div className='outerplayercontainer left' id='player2'> {/* Player 2 Name And Seed */}
+          <div className='seed' id="seed2">{player2Seed}</div>
+          <div className='playername' ref={player2NameRef}>{combineNameAndPronouns(player2, player2Pronouns)}</div>
+          {player2Country ? <img src={getEmoji(player2Country)} className='country' id='country2'/> : <></>}
         </div>
 
         <div className='commentary' id='commentator1' ref={commentator1OuterRef}>

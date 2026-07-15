@@ -13,20 +13,27 @@
 }
 
 .country {
-    top:6px;
-    width: 64px;
-    height: 64px;
-    margin-right: 10px;
-}
-
-#country1 {
-  margin-right: 10px;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .seed {
-    color: lightgray;
-  flex: 0 0 auto;
-  min-width: 0;
+  color: lightgray;
+  font-size: 50px;
+  line-height: 1;
+  width: 64px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+#seed1 {
+  transform: translateX(-10px);
+}
+
+#seed2 {
+  transform: translateX(10px);
 }
 
 .outerplayercontainer {
@@ -35,11 +42,30 @@
   width: 450px;
   height: 76px;
   top: 729px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 64px;
+  column-gap: 10px;
   align-items: center;
   color: white;
-  padding-right: 5;
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+#player1 {
+  left: 15px;
+}
+
+#player2 {
+  right: 12px;
+}
+
+.playername {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
+  font-size: 50px;
+  box-sizing: border-box;
 }
 
 .commentary {
@@ -78,27 +104,12 @@
   padding: 0px 10px 0px 0px;
 }
 
-#player1 {
-    left: 15px;
+.commentary > img {
+  transform: translateX(-15px);
 }
 
-#player2 {
-  right: -8px;
-}
-
-.innerplayercontainer {
-    display: flex;      
-    gap: 10px;          
-    align-items: baseline; 
-    padding: 0px 10px 0px 0px;
-    font-size: 50px;
-    top: 12px;
-    white-space: nowrap;
-  min-width: 0;
-  box-sizing: border-box;
-}
-
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -108,14 +119,4 @@ html, body {
 
 body {
   overflow: hidden;
-}
-
-.align-right {
-  text-align: right;
-  justify-content: right;
-}
-
-.align-left {
-  text-align: left;
-  justify-content: left;
 }
