@@ -153,6 +153,8 @@ function App() {
     const specialFlags: Record<string, string> = {
       PRIDE: "1f3f3-fe0f-200d-1f308",
       TRANS: "1f3f3-fe0f-200d-26a7-fe0f",
+      CALI: "cali_flag", // for mikethepwnstar
+      USCA: "bramz", // for bramz, a hybrid of US/CANADA
       ENG: "1f3f4-e0067-e0062-e0065-e006e-e0067-e007f",
       SCT: "1f3f4-e0067-e0062-e0073-e0063-e0074-e007f",
       WLS: "1f3f4-e0067-e0062-e0077-e006c-e0073-e007f",
