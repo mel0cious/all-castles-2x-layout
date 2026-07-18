@@ -154,6 +154,7 @@ function App() {
       PRIDE: "1f3f3-fe0f-200d-1f308",
       TRANS: "1f3f3-fe0f-200d-26a7-fe0f",
       CALI: "cali_flag", // for mikethepwnstar
+      NYC: "nyc",
       USCA: "bramz", // for bramz, a hybrid of US/CANADA
       ENG: "1f3f4-e0067-e0062-e0065-e006e-e0067-e007f",
       SCT: "1f3f4-e0067-e0062-e0073-e0063-e0074-e007f",
